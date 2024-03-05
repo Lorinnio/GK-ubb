@@ -1,46 +1,50 @@
 import pygame
-import math
+import sys
 
-# Inicjalizacja Pygame
+# Initialize Pygame
 pygame.init()
 
-# Ustawienia ekranu
+# Set up the display
 screen_size = (600, 600)
 screen = pygame.display.set_mode(screen_size)
-pygame.display.set_caption('Jedenastokąt')
+pygame.display.set_caption('Centered Blue Shapes')
 
-# Kolory
-black = (0, 0, 0)
-white = (255, 255, 255)
+# Colors
+blue = (0, 0, 255)
+background_color = (255, 255, 255)
 
-# Parametry wielokąta
-n = 11  # Liczba wierzchołków
-radius = 150  # Promień
-center = (300, 300)  # Środek okręgu
+# Fill the background
+screen.fill(background_color)
 
-# Obliczanie współrzędnych wierzchołków
-vertices = []
-for i in range(n):
-    angle = 2 * math.pi * i / n
-    x = center[0] + radius * math.cos(angle)
-    y = center[1] + radius * math.sin(angle)
-    vertices.append((x, y))
+# Define the shapes' positions for a centered layout
+# Vertical offsets for spacing and centering
+vertical_offset_triangle = 200  # Adjust as needed to fit the design
+vertical_offset_rectangle = vertical_offset_triangle + 50  # Rectangle height + some space
+vertical_offset_second_triangle = vertical_offset_rectangle + 50  # Additional space for the second triangle
 
-# Główna pętla gry
+# First triangle (rotated 180 degrees) at the top
+triangle1_points = [(250, vertical_offset_triangle), (350, vertical_offset_triangle), (300, vertical_offset_triangle + 50)]
+
+# Rectangle directly below the first triangle
+rectangle_y = vertical_offset_rectangle
+rectangle = (250, rectangle_y, 100, 50)
+
+# Second triangle below the rectangle
+triangle2_points = [(250, vertical_offset_second_triangle + 50), (350, vertical_offset_second_triangle + 50), (300, vertical_offset_second_triangle)]
+
+# Drawing the shapes centered
+pygame.draw.polygon(screen, blue, triangle1_points)
+pygame.draw.rect(screen, blue, rectangle)
+pygame.draw.polygon(screen, blue, triangle2_points)
+
+# Update the display
+pygame.display.flip()
+
+# Main loop to keep the window open
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    # Tło
-    screen.fill(black)
-
-    # Rysowanie wielokąta
-    pygame.draw.polygon(screen, white, vertices)
-
-    # Aktualizacja ekranu
-    pygame.display.flip()
-
-# Zakończenie Pygame
 pygame.quit()
